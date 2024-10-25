@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Dicoding Event</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_finished">Finished</string>
+    <string name="title_search">Search</string>
+    <string name="name">Name</string>
+    <string name="image_capture">Image Capture</string>
+    <string name="title_home">Home</string>
+    <string name="sisa_kuota">Sisa Kuota: %1$d</string>
+    <string name="summary">Summary</string>
+    <string name="begin_time">Begin Time</string>
+    <string name="description">Description</string>
+    <string name="register">Register</string>
+    <string name="searchbar_hint">Devcoach</string>
+</resources>
