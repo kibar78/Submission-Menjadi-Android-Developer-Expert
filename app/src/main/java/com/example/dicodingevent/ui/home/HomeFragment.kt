@@ -46,9 +46,9 @@ class HomeFragment : Fragment() {
                     showLoading(false)
                     setupUpcomingEvents(state.data)
                 }
-
                 is ResultState.Error -> {
                     showLoading(false)
+                    showToast(state.error)
                 }
             }
         }
