@@ -12,18 +12,18 @@ import kotlinx.coroutines.launch
 class FinishedViewModel(private val repository: Repository) : ViewModel() {
 
     private val _listFinishedEvents = MutableLiveData<ResultState<List<ListEventsItem>>>()
-    val listFinishedEvents: MutableLiveData<ResultState<List<ListEventsItem>>> = _listFinishedEvents
+    val listFinishedEvents: LiveData<ResultState<List<ListEventsItem>>> = _listFinishedEvents
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-    fun getFinishedEvents(query: Int = 0){
-        _listFinishedEvents.value = ResultState.Loading
-        viewModelScope.launch {
-            try {
-                _listFinishedEvents.value = ResultState.Success(repository.getListEvents(query).listEvents)
-            }catch (e: Exception){
-                _listFinishedEvents.value = ResultState.Error(e.message.toString())
+    fun getFinishedEvents(query: Int = 0) {
+        if (_listFinishedEvents.value == null) {
+            viewModelScope.launch {
+                _listFinishedEvents.value = ResultState.Loading
+                try {
+                    _listFinishedEvents.value =
+                        ResultState.Success(repository.getListEvents(query).listEvents)
+                } catch (e: Exception) {
+                    _listFinishedEvents.value = ResultState.Error(e.message.toString())
+                }
             }
         }
     }

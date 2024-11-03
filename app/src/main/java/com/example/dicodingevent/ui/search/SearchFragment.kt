@@ -70,9 +70,6 @@ class SearchFragment : Fragment() {
         binding.rvSearchEvents.layoutManager = layoutManager
         binding.rvSearchEvents.setHasFixedSize(true)
 
-        searchViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading(it)
-        }
         if (searchViewModel.listSearchEvents.value !is ResultState.Success) {
             searchViewModel.searchEvents(ACTIVE, QUERY)
         }

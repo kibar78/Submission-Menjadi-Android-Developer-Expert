@@ -58,12 +58,12 @@ class FinishedFragment : Fragment() {
         binding.rvFinishedEvents.layoutManager = layoutManager
         binding.rvFinishedEvents.setHasFixedSize(true)
 
-        finishedViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading(it)
-        }
-        if (finishedViewModel.listFinishedEvents.value !is ResultState.Success) {
-            finishedViewModel.getFinishedEvents()
-        }
+        finishedViewModel.getFinishedEvents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        finishedViewModel.getFinishedEvents()
     }
 
     private fun setupFinishedEvents(upcomingEvents: List<ListEventsItem?>){

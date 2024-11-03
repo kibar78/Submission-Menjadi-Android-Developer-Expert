@@ -18,9 +18,10 @@ class EventsAdapter: ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF_
             Glide.with(itemView.context)
                 .load(item.mediaCover)
                 .into(binding.eventImage)
-            val goDetail = Intent(itemView.context, DetailActivity::class.java)
-            goDetail.putExtra(DetailActivity.EXTRA_ID, item)
+
             itemView.setOnClickListener {
+                val goDetail = Intent(itemView.context, DetailActivity::class.java)
+                goDetail.putExtra(DetailActivity.EXTRA_ID, item.id)
                 itemView.context.startActivity(goDetail)
             }
         }

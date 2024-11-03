@@ -58,13 +58,7 @@ class UpcomingFragment : Fragment() {
         binding.rvUpcomingEvents.layoutManager = layoutManager
         binding.rvUpcomingEvents.setHasFixedSize(true)
 
-        upcomingViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading(it)
-        }
-        if (upcomingViewModel.listUpcomingEvents.value !is ResultState.Success){
-            upcomingViewModel.getupComingEvents()
-        }
-
+        upcomingViewModel.getupComingEvents()
     }
 
     private fun setupUpcomingEvents(upcomingEvents: List<ListEventsItem?>){

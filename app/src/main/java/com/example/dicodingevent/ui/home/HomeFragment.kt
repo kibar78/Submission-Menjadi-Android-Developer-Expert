@@ -71,23 +71,13 @@ class HomeFragment : Fragment() {
         val snapHelper = CarouselSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvUpcomingEvents)
 
-        homeViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading(it)
-        }
-        if (homeViewModel.listUpcomingEvents.value !is ResultState.Success){
-            homeViewModel.getupComingEvents()
-        }
+        homeViewModel.getupComingEvents()
 
         val layoutManager2 = LinearLayoutManager(requireActivity())
         binding.rvFinishedEvents.layoutManager = layoutManager2
         binding.rvFinishedEvents.setHasFixedSize(true)
 
-        homeViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading2(it)
-        }
-        if (homeViewModel.listFinishedEvents.value !is ResultState.Success){
-            homeViewModel.getFinishedEvents()
-        }
+        homeViewModel.getFinishedEvents()
     }
 
     private fun setupUpcomingEvents(upcomingEvents: List<ListEventsItem?>){

@@ -1,12 +1,17 @@
 package com.example.dicodingevent
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dicodingevent.databinding.ActivityMainBinding
+import com.example.dicodingevent.ui.settings.SettingsActivity
+import com.example.dicodingevent.ui.favorite.FavoriteActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -30,5 +35,26 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_favorite -> {
+                val goFavorite = Intent(this, FavoriteActivity::class.java)
+                startActivity(goFavorite)
+                true
+            }
+            R.id.action_settings -> {
+                val goSettings = Intent(this, SettingsActivity::class.java)
+                startActivity(goSettings)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

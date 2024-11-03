@@ -11,34 +11,35 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository) : ViewModel() {
     private val _listUpcomingEvents = MutableLiveData<ResultState<List<ListEventsItem>>>()
-    val listUpcomingEvents: MutableLiveData<ResultState<List<ListEventsItem>>> = _listUpcomingEvents
+    val listUpcomingEvents: LiveData<ResultState<List<ListEventsItem>>> = _listUpcomingEvents
 
     private val _listFinishedEvents = MutableLiveData<ResultState<List<ListEventsItem>>>()
-    val listFinishedEvents: MutableLiveData<ResultState<List<ListEventsItem>>> = _listFinishedEvents
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    val listFinishedEvents: LiveData<ResultState<List<ListEventsItem>>> = _listFinishedEvents
 
     fun getupComingEvents(query: Int = 1){
-        _listUpcomingEvents.value = ResultState.Loading
-        viewModelScope.launch {
-            try {
-                val events = repository.getListEvents(query).listEvents
-                _listUpcomingEvents.value = ResultState.Success(events.take(5))
-            }catch (e: Exception){
-                _listUpcomingEvents.value = ResultState.Error(e.message.toString())
+            if (_listUpcomingEvents.value == null){
+            viewModelScope.launch {
+                _listUpcomingEvents.value = ResultState.Loading
+                try {
+                    val events = repository.getListEvents(query).listEvents
+                    _listUpcomingEvents.value = ResultState.Success(events.take(5))
+                } catch (e: Exception) {
+                    _listUpcomingEvents.value = ResultState.Error(e.message.toString())
+                }
             }
         }
     }
 
-    fun getFinishedEvents(query: Int = 0){
-        _listFinishedEvents.value = ResultState.Loading
-        viewModelScope.launch {
-            try {
-                val events = repository.getListEvents(query).listEvents
-                _listFinishedEvents.value = ResultState.Success(events.take(5))
-            }catch (e: Exception){
-                _listFinishedEvents.value = ResultState.Error(e.message.toString())
+    fun getFinishedEvents(query: Int = 0) {
+        if (_listFinishedEvents.value == null) {
+            viewModelScope.launch {
+                _listFinishedEvents.value = ResultState.Loading
+                try {
+                    val events = repository.getListEvents(query).listEvents
+                    _listFinishedEvents.value = ResultState.Success(events.take(5))
+                } catch (e: Exception) {
+                    _listFinishedEvents.value = ResultState.Error(e.message.toString())
+                }
             }
         }
     }

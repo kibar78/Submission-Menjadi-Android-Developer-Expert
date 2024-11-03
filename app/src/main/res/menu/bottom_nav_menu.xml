@@ -19,5 +19,4 @@
         android:id="@+id/navigation_search"
         android:icon="@drawable/ic_search_24"
         android:title="@string/title_search" />
-
 </menu>

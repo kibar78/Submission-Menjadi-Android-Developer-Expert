@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.dicodingevent.di.Injection
 import com.example.dicodingevent.repository.Repository
+import com.example.dicodingevent.ui.detail.DetailViewModel
+import com.example.dicodingevent.ui.favorite.FavoriteViewModel
 import com.example.dicodingevent.ui.finished.FinishedViewModel
 import com.example.dicodingevent.ui.home.HomeViewModel
 import com.example.dicodingevent.ui.search.SearchViewModel
@@ -26,6 +28,12 @@ ViewModelProvider.NewInstanceFactory() {
             }
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
                 SearchViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) ->{
+                FavoriteViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) ->{
+                DetailViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
