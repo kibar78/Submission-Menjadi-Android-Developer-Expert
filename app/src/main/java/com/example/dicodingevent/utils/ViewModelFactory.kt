@@ -10,6 +10,7 @@ import com.example.dicodingevent.ui.favorite.FavoriteViewModel
 import com.example.dicodingevent.ui.finished.FinishedViewModel
 import com.example.dicodingevent.ui.home.HomeViewModel
 import com.example.dicodingevent.ui.search.SearchViewModel
+import com.example.dicodingevent.ui.settings.SettingsViewModel
 import com.example.dicodingevent.ui.upcoming.UpcomingViewModel
 
 class ViewModelFactory private constructor(private val repository: Repository):
@@ -34,6 +35,9 @@ ViewModelProvider.NewInstanceFactory() {
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->{
                 DetailViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SettingsViewModel::class.java) ->{
+                SettingsViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -6,10 +6,13 @@ import com.example.dicodingevent.data.local.FavoriteEntity
 import com.example.dicodingevent.data.network.ApiService
 import com.example.dicodingevent.data.network.response.DetailEventResponse
 import com.example.dicodingevent.data.network.response.EventsResponse
+import com.example.dicodingevent.ui.settings.SettingsPreferences
+import kotlinx.coroutines.flow.Flow
 
 class Repository private constructor(
     private val apiService: ApiService,
-    private val favoriteDao: FavoriteDao
+    private val favoriteDao: FavoriteDao,
+    private val pref: SettingsPreferences
 ){
     suspend fun getListEvents(query: Int): EventsResponse{
         return apiService.getListEvents(query)
@@ -35,15 +38,24 @@ class Repository private constructor(
         return favoriteDao.getAllFavorite()
     }
 
+    fun getThemeSettings(): Flow<Boolean> {
+        return pref.getThemeSetting()
+    }
+
+    suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
+        pref.saveThemeSetting(isDarkModeActive)
+    }
+
     companion object {
         @Volatile
         private var instance: Repository? = null
         fun getInstance(
             apiService: ApiService,
-            favoriteDao: FavoriteDao
+            favoriteDao: FavoriteDao,
+            pref: SettingsPreferences
         ): Repository =
             instance ?: synchronized(this) {
-                instance ?: Repository(apiService, favoriteDao)
+                instance ?: Repository(apiService, favoriteDao, pref)
             }.also { instance = it }
     }
 }
