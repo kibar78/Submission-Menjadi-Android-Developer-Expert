@@ -46,6 +46,14 @@ class Repository private constructor(
         pref.saveThemeSetting(isDarkModeActive)
     }
 
+    fun getNotificationSetting(): Flow<Boolean>{
+        return pref.getNotificationSetting()
+    }
+
+    suspend fun saveNotificationSetting(isNotificationActive: Boolean){
+        pref.saveNotificationSetting(isNotificationActive)
+    }
+
     companion object {
         @Volatile
         private var instance: Repository? = null

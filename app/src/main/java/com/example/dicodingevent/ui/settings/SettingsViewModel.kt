@@ -11,13 +11,23 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(private val repository: Repository): ViewModel() {
     val themeSetting: Flow<Boolean> = repository.getThemeSettings()
 
-    fun getThemeSettings(): LiveData<Boolean> {
+    fun getThemeSetting(): LiveData<Boolean> {
         return repository.getThemeSettings().asLiveData()
     }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
             repository.saveThemeSetting(isDarkModeActive)
+        }
+    }
+
+    fun getNotificationSetting(): LiveData<Boolean> {
+        return repository.getNotificationSetting().asLiveData()
+    }
+
+    fun saveNotificationSetting(isNotificationActive: Boolean) {
+        viewModelScope.launch {
+            repository.saveNotificationSetting(isNotificationActive)
         }
     }
 }
