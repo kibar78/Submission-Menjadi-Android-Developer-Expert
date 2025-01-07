@@ -1,4 +1,4 @@
-package com.example.dicodingevent.ui.settings
+package com.example.dicodingevent.core.data.source.local.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

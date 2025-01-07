@@ -1,10 +1,10 @@
-package com.example.dicodingevent.utils
+package com.example.dicodingevent.core.ui
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.dicodingevent.di.Injection
-import com.example.dicodingevent.repository.Repository
+import com.example.dicodingevent.core.di.Injection
+import com.example.dicodingevent.core.domain.usecase.EventsUseCase
 import com.example.dicodingevent.ui.detail.DetailViewModel
 import com.example.dicodingevent.ui.favorite.FavoriteViewModel
 import com.example.dicodingevent.ui.finished.FinishedViewModel
@@ -13,31 +13,31 @@ import com.example.dicodingevent.ui.search.SearchViewModel
 import com.example.dicodingevent.ui.settings.SettingsViewModel
 import com.example.dicodingevent.ui.upcoming.UpcomingViewModel
 
-class ViewModelFactory private constructor(private val repository: Repository):
+class ViewModelFactory private constructor(private val useCase: EventsUseCase):
 ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(UpcomingViewModel::class.java) -> {
-                UpcomingViewModel(repository) as T
+                UpcomingViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(FinishedViewModel::class.java) -> {
-                FinishedViewModel(repository) as T
+                FinishedViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(repository) as T
+                HomeViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
-                SearchViewModel(repository) as T
+                SearchViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) ->{
-                FavoriteViewModel(repository) as T
+                FavoriteViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->{
-                DetailViewModel(repository) as T
+                DetailViewModel(useCase) as T
             }
             modelClass.isAssignableFrom(SettingsViewModel::class.java) ->{
-                SettingsViewModel(repository) as T
+                SettingsViewModel(useCase) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -47,7 +47,7 @@ ViewModelProvider.NewInstanceFactory() {
         private var instance: ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context))
+                instance ?: ViewModelFactory(Injection.provideEventsUseCase(context))
             }.also { instance = it }
     }
 }

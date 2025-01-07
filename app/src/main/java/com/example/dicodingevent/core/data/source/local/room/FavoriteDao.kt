@@ -1,11 +1,12 @@
-package com.example.dicodingevent.data.local
+package com.example.dicodingevent.core.data.source.local.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.dicodingevent.core.data.source.local.entity.FavoriteEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteDao {
@@ -17,8 +18,8 @@ interface FavoriteDao {
     suspend fun delete(favorite: FavoriteEntity)
 
     @Query("SELECT * FROM favorite_event WHERE id = :id")
-    fun getFavoriteEventById(id: String): LiveData<FavoriteEntity>
+    fun getFavoriteEventById(id: String): Flow<FavoriteEntity>
 
     @Query("SELECT * FROM favorite_event")
-    suspend fun getAllFavorite(): List<FavoriteEntity>
+    fun getAllFavorite(): Flow<List<FavoriteEntity>>
 }

@@ -1,9 +1,10 @@
-package com.example.dicodingevent.data.local
+package com.example.dicodingevent.core.data.source.local.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.dicodingevent.core.data.source.local.entity.FavoriteEntity
 
 @Database(
     entities = [FavoriteEntity::class],
@@ -18,7 +19,7 @@ abstract class EventDatabase : RoomDatabase(){
         private var INSTANCE: EventDatabase? = null
 
         @JvmStatic
-        fun getDatabase(context: Context): EventDatabase{
+        fun getDatabase(context: Context): EventDatabase {
             if (INSTANCE == null){
                 synchronized(EventDatabase::class.java){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,

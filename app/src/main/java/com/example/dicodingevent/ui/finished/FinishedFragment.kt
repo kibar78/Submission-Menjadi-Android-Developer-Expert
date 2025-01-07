@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.dicodingevent.adapter.EventsAdapter
-import com.example.dicodingevent.data.network.response.ListEventsItem
+import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.domain.model.Events
+import com.example.dicodingevent.core.ui.EventsAdapter
+import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.FragmentFinishedBinding
-import com.example.dicodingevent.utils.ResultState
-import com.example.dicodingevent.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class FinishedFragment : Fragment() {
 
@@ -39,18 +41,23 @@ class FinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        finishedViewModel.listFinishedEvents.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is ResultState.Loading -> {
-                    showLoading(true)
-                }
-                is ResultState.Success -> {
-                    setupFinishedEvents(state.data)
-                    showLoading(false)
-                }
-                is ResultState.Error -> {
-                    showLoading(false)
-                    showToast(state.error)
+
+        lifecycleScope.launch {
+            finishedViewModel.listFinishedEvents.collect { state ->
+                when (state) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+
+                    is ResultState.Success -> {
+                        setupFinishedEvents(state.data)
+                        showLoading(false)
+                    }
+
+                    is ResultState.Error -> {
+                        showLoading(false)
+                        showToast(state.error)
+                    }
                 }
             }
         }
@@ -66,7 +73,7 @@ class FinishedFragment : Fragment() {
         finishedViewModel.getFinishedEvents()
     }
 
-    private fun setupFinishedEvents(upcomingEvents: List<ListEventsItem?>){
+    private fun setupFinishedEvents(upcomingEvents: List<Events?>){
         val adapter = EventsAdapter()
         adapter.submitList(upcomingEvents)
         binding.rvFinishedEvents.adapter = adapter

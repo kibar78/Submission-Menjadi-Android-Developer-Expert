@@ -1,30 +1,29 @@
 package com.example.dicodingevent.ui.finished
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dicodingevent.data.network.response.ListEventsItem
-import com.example.dicodingevent.repository.Repository
-import com.example.dicodingevent.utils.ResultState
+import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.domain.model.Events
+import com.example.dicodingevent.core.domain.usecase.EventsUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class FinishedViewModel(private val repository: Repository) : ViewModel() {
+class FinishedViewModel(private val useCase: EventsUseCase) : ViewModel() {
 
-    private val _listFinishedEvents = MutableLiveData<ResultState<List<ListEventsItem>>>()
-    val listFinishedEvents: LiveData<ResultState<List<ListEventsItem>>> = _listFinishedEvents
+    private val _listFinishedEvents = MutableStateFlow<ResultState<List<Events>>>(ResultState.Loading)
+    val listFinishedEvents: StateFlow<ResultState<List<Events>>> = _listFinishedEvents
 
     fun getFinishedEvents(query: Int = 0) {
-        if (_listFinishedEvents.value == null) {
-            viewModelScope.launch {
-                _listFinishedEvents.value = ResultState.Loading
-                try {
-                    _listFinishedEvents.value =
-                        ResultState.Success(repository.getListEvents(query).listEvents)
-                } catch (e: Exception) {
-                    _listFinishedEvents.value = ResultState.Error(e.message.toString())
+        viewModelScope.launch {
+            useCase.getListEvents(query)
+                .onStart { _listFinishedEvents.value = ResultState.Loading }
+                .catch { e -> _listFinishedEvents.value = ResultState.Error(e.message.toString()) }
+                .collect{ events ->
+                    _listFinishedEvents.value = ResultState.Success(events)
                 }
-            }
         }
     }
 }

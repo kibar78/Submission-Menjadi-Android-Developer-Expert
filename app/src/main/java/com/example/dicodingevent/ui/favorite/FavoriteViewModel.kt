@@ -3,18 +3,23 @@ package com.example.dicodingevent.ui.favorite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.dicodingevent.data.local.FavoriteEntity
-import com.example.dicodingevent.repository.Repository
+import com.example.dicodingevent.core.domain.model.Favorite
+import com.example.dicodingevent.core.domain.usecase.EventsUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel(private val repository: Repository) : ViewModel() {
-    private val _listFavorite = MutableLiveData<List<FavoriteEntity>>()
-    val listFavorite : LiveData<List<FavoriteEntity>> = _listFavorite
+class FavoriteViewModel(private val useCase: EventsUseCase) : ViewModel() {
+    private val _listFavorite = MutableStateFlow<List<Favorite>>(emptyList())
+    val listFavorite : StateFlow<List<Favorite>> = _listFavorite
 
     fun getAllFavorite(){
         viewModelScope.launch {
-            _listFavorite.value = repository.getAllFavorite()
+            useCase.getAllFavorites().collect{favorite ->
+                _listFavorite.value = favorite
+            }
         }
     }
 }

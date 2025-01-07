@@ -27,7 +27,6 @@ roomKtx = "2.6.1"
 roomCompiler = "2.6.1"
 workRuntime = "2.10.0"
 
-
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

@@ -5,11 +5,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.adapter.FavoritesAdapter
-import com.example.dicodingevent.data.local.FavoriteEntity
+import com.example.dicodingevent.core.domain.model.Favorite
+import com.example.dicodingevent.core.ui.FavoritesAdapter
+import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.ActivityFavoriteBinding
-import com.example.dicodingevent.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -33,24 +35,25 @@ class FavoriteActivity : AppCompatActivity() {
 
         favoriteViewModel.getAllFavorite()
 
-        favoriteViewModel.listFavorite.observe(this){list->
-            showLoading(true)
-            try {
-                showLoading(false)
-                setUpListFavorites(list)
-            }catch (e: Exception){
-                showLoading(false)
-                showToast(e.message.toString())
+        lifecycleScope.launch {
+            favoriteViewModel.listFavorite.collect { list ->
+                showLoading(true)
+                try {
+                    showLoading(false)
+                    setUpListFavorites(list)
+                } catch (e: Exception) {
+                    showLoading(false)
+                    showToast(e.message.toString())
+                }
             }
         }
     }
-
     override fun onResume() {
         favoriteViewModel.getAllFavorite()
         super.onResume()
     }
 
-    private fun setUpListFavorites(favorite: List<FavoriteEntity>){
+    private fun setUpListFavorites(favorite: List<Favorite>){
         val adapter = FavoritesAdapter()
         adapter.submitList(favorite)
         binding.rvFavoriteEvents.adapter = adapter

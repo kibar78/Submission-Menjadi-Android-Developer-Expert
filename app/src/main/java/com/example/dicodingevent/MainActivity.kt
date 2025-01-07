@@ -18,7 +18,7 @@ import com.example.dicodingevent.databinding.ActivityMainBinding
 import com.example.dicodingevent.ui.settings.SettingsActivity
 import com.example.dicodingevent.ui.favorite.FavoriteActivity
 import com.example.dicodingevent.ui.settings.SettingsViewModel
-import com.example.dicodingevent.utils.ViewModelFactory
+import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 

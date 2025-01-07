@@ -1,4 +1,4 @@
-package com.example.dicodingevent.adapter
+package com.example.dicodingevent.core.ui
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.dicodingevent.data.network.response.ListEventsItem
+import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.databinding.ItemCarouselBinding
 import com.example.dicodingevent.ui.detail.DetailActivity
 
-class CarouselAdapter: ListAdapter<ListEventsItem, CarouselAdapter.ViewHolder>(DIFF_CALLBACK) {
+class CarouselAdapter: ListAdapter<Events, CarouselAdapter.ViewHolder>(DIFF_CALLBACK) {
     class ViewHolder(private val binding: ItemCarouselBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ListEventsItem){
+        fun bind(item: Events){
             binding.tvName.text = item.name
             Glide.with(itemView.context)
                 .load(item.mediaCover)
@@ -28,12 +28,12 @@ class CarouselAdapter: ListAdapter<ListEventsItem, CarouselAdapter.ViewHolder>(D
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEventsItem>() {
-            override fun areItemsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Events>() {
+            override fun areItemsTheSame(oldItem: Events, newItem: Events): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
+            override fun areContentsTheSame(oldItem: Events, newItem: Events): Boolean {
                 return oldItem == newItem
             }
         }

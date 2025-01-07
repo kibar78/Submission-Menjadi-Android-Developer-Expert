@@ -1,4 +1,4 @@
-package com.example.dicodingevent.utils
+package com.example.dicodingevent.core.data.source
 
 sealed class ResultState<out R> private constructor() {
     data class Success<out T>(val data: T) : ResultState<T>()

@@ -1,4 +1,4 @@
-package com.example.dicodingevent.data.local
+package com.example.dicodingevent.core.data.source.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

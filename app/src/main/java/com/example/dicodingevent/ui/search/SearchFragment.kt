@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.adapter.EventsAdapter
-import com.example.dicodingevent.data.network.response.ListEventsItem
+import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.domain.model.Events
+import com.example.dicodingevent.core.ui.EventsAdapter
+import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.FragmentSearchBinding
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.ACTIVE
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.QUERY
-import com.example.dicodingevent.utils.ResultState
-import com.example.dicodingevent.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -40,7 +42,8 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchViewModel.listSearchEvents.observe(viewLifecycleOwner){state->
+        lifecycleScope.launch {
+        searchViewModel.listSearchEvents.collect{state->
             when(state){
                 is ResultState.Loading->{
                     showLoading(true)
@@ -54,6 +57,7 @@ class SearchFragment : Fragment() {
                     showToast(state.error)
                 }
             }
+        }
         }
         with(binding){
             searchView.setupWithSearchBar(searchBar)
@@ -81,7 +85,7 @@ class SearchFragment : Fragment() {
     private fun showToast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
-    private fun setupSearchEvents(searchEvents: List<ListEventsItem?>){
+    private fun setupSearchEvents(searchEvents: List<Events?>){
         val adapter = EventsAdapter()
         adapter.submitList(searchEvents)
         binding.rvSearchEvents.adapter = adapter

@@ -15,7 +15,7 @@ import androidx.work.WorkManager
 import com.example.dicodingevent.R
 import com.example.dicodingevent.databinding.ActivitySettingsBinding
 import com.example.dicodingevent.reminder.MyWorker
-import com.example.dicodingevent.utils.ViewModelFactory
+import com.example.dicodingevent.core.ui.ViewModelFactory
 import java.util.concurrent.TimeUnit
 
 class SettingsActivity : AppCompatActivity(), View.OnClickListener {

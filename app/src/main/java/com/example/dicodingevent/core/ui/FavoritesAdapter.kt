@@ -1,4 +1,4 @@
-package com.example.dicodingevent.adapter
+package com.example.dicodingevent.core.ui
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,13 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.dicodingevent.data.network.response.ListEventsItem
+import com.example.dicodingevent.core.data.source.local.entity.FavoriteEntity
+import com.example.dicodingevent.core.domain.model.Favorite
 import com.example.dicodingevent.databinding.ItemEventsBinding
 import com.example.dicodingevent.ui.detail.DetailActivity
 
-class EventsAdapter: ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF_CALLBACK) {
+class FavoritesAdapter: ListAdapter<Favorite, FavoritesAdapter.ViewHolder>(DIFF_CALLBACK){
+
     class ViewHolder(private val binding: ItemEventsBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(item: ListEventsItem){
+        fun bind(item: Favorite){
             binding.tvName.text = item.name
             Glide.with(itemView.context)
                 .load(item.mediaCover)
@@ -21,7 +23,7 @@ class EventsAdapter: ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF_
 
             itemView.setOnClickListener {
                 val goDetail = Intent(itemView.context, DetailActivity::class.java)
-                goDetail.putExtra(DetailActivity.EXTRA_ID, item.id)
+                goDetail.putExtra(DetailActivity.EXTRA_ID, item.id.toInt())
                 itemView.context.startActivity(goDetail)
             }
         }
@@ -38,12 +40,12 @@ class EventsAdapter: ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF_
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEventsItem>() {
-            override fun areItemsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Favorite>() {
+            override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
+            override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
                 return oldItem == newItem
             }
         }

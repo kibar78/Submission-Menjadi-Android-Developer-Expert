@@ -1,5 +1,6 @@
 package com.example.dicodingevent.reminder
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -10,8 +11,8 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.data.network.ApiConfig
-import com.example.dicodingevent.data.network.response.EventsResponse
+import com.example.dicodingevent.core.data.source.remote.network.ApiConfig
+import com.example.dicodingevent.core.data.source.remote.response.EventsResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,6 +70,7 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
         return resultStatus as Result
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private fun showNotification(title: String, beginTime: String?, image: Bitmap?){
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)

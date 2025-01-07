@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.data.network.response.Event
+import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.domain.model.Events
+import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.ActivityDetailBinding
-import com.example.dicodingevent.utils.ResultState
-import com.example.dicodingevent.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
 
@@ -34,7 +36,8 @@ class DetailActivity : AppCompatActivity() {
 
         val itemId = intent.getIntExtra(EXTRA_ID,0)
 
-        viewModel.detailEvent.observe(this){result->
+        lifecycleScope.launch {
+        viewModel.detailEvent.collect {result->
             when(result){
                 is ResultState.Loading-> showLoading(true)
                 is ResultState.Success->{
@@ -47,9 +50,12 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
-        viewModel.getFavoriteById(itemId.toString()).observe(this) { favorite ->
-            favoriteStatus = favorite != null
-            updateFavoriteIcon(favoriteStatus)
+        }
+        lifecycleScope.launch {
+            viewModel.getFavoriteById(itemId.toString()).collect { favorite ->
+                favoriteStatus = favorite != null
+                updateFavoriteIcon(favoriteStatus)
+            }
         }
         binding.fabAddFavorite.setOnClickListener {
             val event = (viewModel.detailEvent.value as? ResultState.Success)?.data
@@ -70,7 +76,7 @@ class DetailActivity : AppCompatActivity() {
         )
     }
 
-    private fun setDetailEvent(detailEvent: Event?){
+    private fun setDetailEvent(detailEvent: Events?){
             binding.apply {
                 toolbar.title = detailEvent?.name
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24)

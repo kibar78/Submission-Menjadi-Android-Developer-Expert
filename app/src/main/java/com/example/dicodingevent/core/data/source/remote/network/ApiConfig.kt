@@ -1,4 +1,4 @@
-package com.example.dicodingevent.data.network
+package com.example.dicodingevent.core.data.source.remote.network
 
 import com.example.dicodingevent.BuildConfig
 import okhttp3.Interceptor
