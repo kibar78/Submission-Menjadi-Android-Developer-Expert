@@ -11,12 +11,14 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.core.data.source.remote.network.ApiConfig
 import com.example.dicodingevent.core.data.source.remote.response.EventsResponse
+import com.example.dicodingevent.core.domain.usecase.EventsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,49 +26,40 @@ import retrofit2.Response
 class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams){
 
     private var resultStatus: Result? = null
-    private val apiService = ApiConfig.getApiService()
+    //private val apiService = ApiConfig.getApiService()
 
+    private val eventsUseCase: EventsUseCase by inject(EventsUseCase::class.java)
 
     override fun doWork(): Result {
         return try {
-            getDailyReminder()
-            Result.success()
+            runBlocking {
+                getDailyReminder()
+                Result.success()
+            }
         }catch (e: Exception){
             Result.failure()
         }
     }
 
-    private fun getDailyReminder(): Result{
-        val client = apiService.dailyReminder(-1,1)
-        client.enqueue(object : Callback<EventsResponse>{
-            override fun onResponse(
-                call: Call<EventsResponse>,
-                response: Response<EventsResponse>
-            ) {
-                val responseBody = response.body()
-                if (responseBody != null){
-                    val event = responseBody.listEvents[0]
-                    event.name?.let {
-                        val beginTime = event.beginTime
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val imageBitmap =
-                                Glide.with(applicationContext)
-                                    .asBitmap()
-                                    .load(event.imageLogo)
-                                    .submit()
-                                    .get()
-                            withContext(Dispatchers.Main) {
-                                showNotification(it, beginTime, imageBitmap)
-                            }
-                        }
+    private suspend fun getDailyReminder(): Result{
+        val response = eventsUseCase.getDailyReminder(-1,1)
+        if (response.isNotEmpty()){
+            val event = response[0]
+            event.name.let {
+                val beginTime = event.beginTime
+                CoroutineScope(Dispatchers.IO).launch {
+                    val imageBitmap = Glide.with(applicationContext)
+                        .asBitmap()
+                        .load(event.imageLogo)
+                        .submit()
+                        .get()
+                    withContext(Dispatchers.Main){
+                        showNotification(it, beginTime, imageBitmap)
                     }
                 }
             }
-            override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
-                showNotification("Daily Reminder Not Success: ", t.message, null)
-                resultStatus = Result.failure()
-            }
-        })
+
+        }
         return resultStatus as Result
     }
 

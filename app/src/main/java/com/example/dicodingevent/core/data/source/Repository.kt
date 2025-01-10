@@ -10,7 +10,7 @@ import com.example.dicodingevent.core.utils.FavoriteMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class Repository private constructor(
+class Repository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ): IEventsRepository {
@@ -80,15 +80,20 @@ class Repository private constructor(
         localDataSource.saveNotificationSetting(isNotificationActive)
     }
 
-    companion object {
-        @Volatile
-        private var instance: Repository? = null
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource
-        ): Repository =
-            instance ?: synchronized(this) {
-                instance ?: Repository(remoteDataSource, localDataSource)
-            }.also { instance = it }
+    override suspend fun getDailyReminder(active: Int, limit: Int): List<Events> {
+        val response = remoteDataSource.getDailyReminder(active, limit)
+        return EventMapper.mapEventsResponseToDomain(response)
+        }
     }
-}
+
+//    companion object {
+//        @Volatile
+//        private var instance: Repository? = null
+//        fun getInstance(
+//            remoteDataSource: RemoteDataSource,
+//            localDataSource: LocalDataSource
+//        ): Repository =
+//            instance ?: synchronized(this) {
+//                instance ?: Repository(remoteDataSource, localDataSource)
+//            }.also { instance = it }
+//    }

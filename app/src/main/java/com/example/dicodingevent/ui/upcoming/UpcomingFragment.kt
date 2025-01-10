@@ -6,16 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.core.ui.EventsAdapter
-import com.example.dicodingevent.core.data.source.remote.response.ListEventsItem
-import com.example.dicodingevent.databinding.FragmentUpcomingBinding
 import com.example.dicodingevent.core.data.source.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.core.ui.ViewModelFactory
+import com.example.dicodingevent.core.ui.EventsAdapter
+import com.example.dicodingevent.databinding.FragmentUpcomingBinding
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UpcomingFragment : Fragment() {
 
@@ -25,9 +23,7 @@ class UpcomingFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val upcomingViewModel by viewModels<UpcomingViewModel> {
-        ViewModelFactory.getInstance(requireActivity())
-    }
+    private val upcomingViewModel: UpcomingViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

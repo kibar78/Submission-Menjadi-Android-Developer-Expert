@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Lifecycle
@@ -15,20 +14,19 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dicodingevent.databinding.ActivityMainBinding
-import com.example.dicodingevent.ui.settings.SettingsActivity
 import com.example.dicodingevent.ui.favorite.FavoriteActivity
+import com.example.dicodingevent.ui.settings.SettingsActivity
 import com.example.dicodingevent.ui.settings.SettingsViewModel
-import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel by viewModels<SettingsViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

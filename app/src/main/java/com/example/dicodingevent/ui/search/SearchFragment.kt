@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.data.source.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.core.ui.EventsAdapter
-import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.FragmentSearchBinding
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.ACTIVE
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.QUERY
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
@@ -26,9 +25,7 @@ class SearchFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val searchViewModel by viewModels<SearchViewModel> {
-        ViewModelFactory.getInstance(requireActivity())
-    }
+    private val searchViewModel: SearchViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

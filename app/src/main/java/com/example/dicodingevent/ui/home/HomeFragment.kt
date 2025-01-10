@@ -6,26 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.data.source.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.core.ui.CarouselAdapter
 import com.example.dicodingevent.core.ui.EventsAdapter
-import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.FragmentHomeBinding
 import com.google.android.material.carousel.CarouselSnapHelper
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val homeViewModel by viewModels<HomeViewModel>{
-        ViewModelFactory.getInstance(requireActivity())
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

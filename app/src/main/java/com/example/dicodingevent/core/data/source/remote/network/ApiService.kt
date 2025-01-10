@@ -22,8 +22,8 @@ interface ApiService {
     suspend fun getDetailEvent(@Path("id")id: Int): DetailEventResponse
 
     @GET("events")
-    fun dailyReminder(
+    suspend fun dailyReminder(
         @Query("active") active: Int,
         @Query("limit") limit: Int
-    ): Call<EventsResponse>
+    ):EventsResponse
 }

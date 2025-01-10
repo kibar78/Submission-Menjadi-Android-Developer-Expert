@@ -5,20 +5,20 @@ import com.example.dicodingevent.core.data.source.local.entity.FavoriteEntity
 import com.example.dicodingevent.core.data.source.local.room.FavoriteDao
 import kotlinx.coroutines.flow.Flow
 
-class LocalDataSource private constructor(
+class LocalDataSource(
     private val favoriteDao: FavoriteDao,
     private val settingsPreferences: SettingsPreferences
 ){
 
-    companion object{
-        private var instance: LocalDataSource? = null
-        fun getInstance(favoriteDao: FavoriteDao,
-                        settingsPreferences: SettingsPreferences
-        ): LocalDataSource =
-            instance ?: synchronized(this){
-                instance ?: LocalDataSource(favoriteDao, settingsPreferences)
-            }
-    }
+//    companion object{
+//        private var instance: LocalDataSource? = null
+//        fun getInstance(favoriteDao: FavoriteDao,
+//                        settingsPreferences: SettingsPreferences
+//        ): LocalDataSource =
+//            instance ?: synchronized(this){
+//                instance ?: LocalDataSource(favoriteDao, settingsPreferences)
+//            }
+//    }
 
     // Fungsi untuk menambahkan favorite ke database
     suspend fun insert(favorite: FavoriteEntity) {

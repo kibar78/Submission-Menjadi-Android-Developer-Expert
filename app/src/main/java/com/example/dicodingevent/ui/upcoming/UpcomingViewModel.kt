@@ -1,7 +1,5 @@
 package com.example.dicodingevent.ui.upcoming
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dicodingevent.core.data.source.ResultState

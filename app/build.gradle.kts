@@ -83,4 +83,7 @@ dependencies {
 
     //WorkManager
     implementation(libs.androidx.work.runtime)
+
+    //Koin
+    implementation(libs.koin.android)
 }

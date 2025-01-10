@@ -37,4 +37,6 @@ interface EventsUseCase {
 
     // Menyimpan pengaturan notifikasi
     suspend fun saveNotificationSetting(isNotificationActive: Boolean)
+
+    suspend fun getDailyReminder(active: Int, limit: Int): List<Events>
 }

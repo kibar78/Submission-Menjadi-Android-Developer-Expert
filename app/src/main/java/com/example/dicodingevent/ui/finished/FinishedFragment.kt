@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dicodingevent.core.data.source.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.core.ui.EventsAdapter
-import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.FragmentFinishedBinding
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FinishedFragment : Fragment() {
 
@@ -25,9 +24,7 @@ class FinishedFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val finishedViewModel by viewModels<FinishedViewModel> {
-        ViewModelFactory.getInstance(requireActivity())
-    }
+    private val finishedViewModel: FinishedViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +45,10 @@ class FinishedFragment : Fragment() {
                     is ResultState.Loading -> {
                         showLoading(true)
                     }
-
                     is ResultState.Success -> {
                         setupFinishedEvents(state.data)
                         showLoading(false)
                     }
-
                     is ResultState.Error -> {
                         showLoading(false)
                         showToast(state.error)
@@ -61,7 +56,7 @@ class FinishedFragment : Fragment() {
                 }
             }
         }
-        val layoutManager = StaggeredGridLayoutManager(2, GridLayoutManager.VERTICAL)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvFinishedEvents.layoutManager = layoutManager
         binding.rvFinishedEvents.setHasFixedSize(true)
 
@@ -73,10 +68,15 @@ class FinishedFragment : Fragment() {
         finishedViewModel.getFinishedEvents()
     }
 
-    private fun setupFinishedEvents(upcomingEvents: List<Events?>){
-        val adapter = EventsAdapter()
-        adapter.submitList(upcomingEvents)
-        binding.rvFinishedEvents.adapter = adapter
+    private fun setupFinishedEvents(finishedEvents: List<Events?>){
+        val adapter = binding.rvFinishedEvents.adapter as? EventsAdapter
+        if (adapter != null) {
+            adapter.submitList(finishedEvents)
+        } else {
+            val newAdapter = EventsAdapter()
+            newAdapter.submitList(finishedEvents)
+            binding.rvFinishedEvents.adapter = newAdapter
+        }
 
     }
     private fun showLoading(isLoading: Boolean){

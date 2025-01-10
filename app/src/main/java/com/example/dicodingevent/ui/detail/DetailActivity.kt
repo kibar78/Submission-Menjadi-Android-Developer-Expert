@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
@@ -13,17 +12,15 @@ import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
 import com.example.dicodingevent.core.data.source.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.ActivityDetailBinding
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    private val viewModel by viewModels<DetailViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private val viewModel: DetailViewModel by viewModel()
 
     private var favoriteStatus : Boolean = false
 

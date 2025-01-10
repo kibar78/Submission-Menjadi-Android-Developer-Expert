@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.Constraints
@@ -15,14 +14,13 @@ import androidx.work.WorkManager
 import com.example.dicodingevent.R
 import com.example.dicodingevent.databinding.ActivitySettingsBinding
 import com.example.dicodingevent.reminder.MyWorker
-import com.example.dicodingevent.core.ui.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySettingsBinding
-    private val viewModel by viewModels<SettingsViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+
+    private val viewModel: SettingsViewModel by viewModel()
 
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest

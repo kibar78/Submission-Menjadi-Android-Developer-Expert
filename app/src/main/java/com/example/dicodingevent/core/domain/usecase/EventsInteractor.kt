@@ -49,4 +49,8 @@ class EventsInteractor(private val repository: IEventsRepository): EventsUseCase
     override suspend fun saveNotificationSetting(isNotificationActive: Boolean) {
         repository.saveNotificationSetting(isNotificationActive)
     }
+
+    override suspend fun getDailyReminder(active: Int, limit: Int): List<Events> {
+        return repository.getDailyReminder(active,limit)
+    }
 }

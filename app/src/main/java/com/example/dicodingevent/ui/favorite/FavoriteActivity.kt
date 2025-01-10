@@ -3,23 +3,20 @@ package com.example.dicodingevent.ui.favorite
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.domain.model.Favorite
 import com.example.dicodingevent.core.ui.FavoritesAdapter
-import com.example.dicodingevent.core.ui.ViewModelFactory
 import com.example.dicodingevent.databinding.ActivityFavoriteBinding
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
 
-    private val favoriteViewModel: FavoriteViewModel by viewModels {
-        ViewModelFactory.getInstance(this)
-    }
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
