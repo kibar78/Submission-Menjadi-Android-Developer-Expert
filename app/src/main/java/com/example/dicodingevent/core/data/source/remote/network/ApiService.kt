@@ -2,7 +2,6 @@ package com.example.dicodingevent.core.data.source.remote.network
 
 import com.example.dicodingevent.core.data.source.remote.response.DetailEventResponse
 import com.example.dicodingevent.core.data.source.remote.response.EventsResponse
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

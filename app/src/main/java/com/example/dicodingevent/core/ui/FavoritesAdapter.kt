@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.dicodingevent.core.data.source.local.entity.FavoriteEntity
 import com.example.dicodingevent.core.domain.model.Favorite
 import com.example.dicodingevent.databinding.ItemEventsBinding
 import com.example.dicodingevent.ui.detail.DetailActivity

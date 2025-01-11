@@ -90,9 +90,9 @@ class HomeFragment : Fragment() {
         binding.rvUpcomingEvents.adapter = adapter
     }
 
-    private fun setupFinishedEvents(upcomingEvents: List<Events?>){
+    private fun setupFinishedEvents(finishedEvents: List<Events?>){
         val adapter = EventsAdapter()
-        adapter.submitList(upcomingEvents)
+        adapter.submitList(finishedEvents)
         binding.rvFinishedEvents.adapter = adapter
     }
 

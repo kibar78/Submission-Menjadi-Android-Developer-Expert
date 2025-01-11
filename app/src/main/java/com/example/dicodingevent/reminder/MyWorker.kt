@@ -11,7 +11,6 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.core.data.source.remote.response.EventsResponse
 import com.example.dicodingevent.core.domain.usecase.EventsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,9 +18,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams){
 

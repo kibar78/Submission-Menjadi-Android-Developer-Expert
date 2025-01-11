@@ -1,9 +1,6 @@
 package com.example.dicodingevent.ui.favorite
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.dicodingevent.core.domain.model.Favorite
 import com.example.dicodingevent.core.domain.usecase.EventsUseCase
