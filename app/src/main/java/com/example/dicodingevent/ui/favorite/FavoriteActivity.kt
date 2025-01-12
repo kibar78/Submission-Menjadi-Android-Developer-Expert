@@ -46,8 +46,8 @@ class FavoriteActivity : AppCompatActivity() {
         }
     }
     override fun onResume() {
-        favoriteViewModel.getAllFavorite()
         super.onResume()
+        favoriteViewModel.getAllFavorite()
     }
 
     private fun setUpListFavorites(favorite: List<Favorite>){

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.core.ui.CarouselAdapter
 import com.example.dicodingevent.core.ui.EventsAdapter
@@ -38,16 +38,12 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             homeViewModel.listUpcomingEvents.collect { state ->
-                when (state) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
-
+                when(state) {
+                    is ResultState.Loading -> showLoading(true)
                     is ResultState.Success -> {
                         showLoading(false)
                         setupUpcomingEvents(state.data)
                     }
-
                     is ResultState.Error -> {
                         showLoading(false)
                         showToast(state.error)
@@ -56,11 +52,10 @@ class HomeFragment : Fragment() {
             }
         }
 
-        homeViewModel.listFinishedEvents.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is ResultState.Loading -> {
-                    showLoading2(true)
-                }
+        lifecycleScope.launch {
+        homeViewModel.listFinishedEvents.collect{ state ->
+            when(state) {
+                is ResultState.Loading -> showLoading2(true)
                 is ResultState.Success -> {
                     setupFinishedEvents(state.data)
                     showLoading2(false)
@@ -71,17 +66,25 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+        }
 
         val snapHelper = CarouselSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvUpcomingEvents)
-
-        homeViewModel.getupComingEvents()
 
         val layoutManager2 = LinearLayoutManager(requireActivity())
         binding.rvFinishedEvents.layoutManager = layoutManager2
         binding.rvFinishedEvents.setHasFixedSize(true)
 
-        homeViewModel.getFinishedEvents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (homeViewModel.listUpcomingEvents.value !is ResultState.Success) {
+            homeViewModel.getupComingEvents()
+        }
+        if (homeViewModel.listFinishedEvents.value !is ResultState.Success) {
+            homeViewModel.getFinishedEvents()
+        }
     }
 
     private fun setupUpcomingEvents(upcomingEvents: List<Events?>){

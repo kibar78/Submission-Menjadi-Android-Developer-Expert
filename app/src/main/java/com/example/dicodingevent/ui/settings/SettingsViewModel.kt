@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.dicodingevent.core.domain.usecase.EventsUseCase
+import com.example.dicodingevent.core.domain.usecase.DataStoreUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val useCase: EventsUseCase): ViewModel() {
+class SettingsViewModel(private val useCase: DataStoreUseCase): ViewModel() {
     val themeSetting: Flow<Boolean> = useCase.getThemeSettings()
 
     fun getThemeSetting(): LiveData<Boolean> {

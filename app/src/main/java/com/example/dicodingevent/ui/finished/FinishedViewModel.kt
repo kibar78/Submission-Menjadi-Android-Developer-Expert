@@ -2,16 +2,16 @@ package com.example.dicodingevent.ui.finished
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.core.domain.usecase.EventsUseCase
+import com.example.dicodingevent.core.domain.usecase.RemoteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class FinishedViewModel(private val useCase: EventsUseCase) : ViewModel() {
+class FinishedViewModel(private val useCase: RemoteUseCase) : ViewModel() {
 
     private val _listFinishedEvents = MutableStateFlow<ResultState<List<Events>>>(ResultState.Loading)
     val listFinishedEvents: StateFlow<ResultState<List<Events>>> = _listFinishedEvents

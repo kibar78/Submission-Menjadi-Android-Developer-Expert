@@ -1,7 +1,11 @@
 package com.example.dicodingevent.di
 
-import com.example.dicodingevent.core.domain.usecase.EventsInteractor
-import com.example.dicodingevent.core.domain.usecase.EventsUseCase
+import com.example.dicodingevent.core.domain.usecase.DataStoreInteractor
+import com.example.dicodingevent.core.domain.usecase.DataStoreUseCase
+import com.example.dicodingevent.core.domain.usecase.RemoteInteractor
+import com.example.dicodingevent.core.domain.usecase.RemoteUseCase
+import com.example.dicodingevent.core.domain.usecase.RoomInteractor
+import com.example.dicodingevent.core.domain.usecase.RoomUseCase
 import com.example.dicodingevent.ui.detail.DetailViewModel
 import com.example.dicodingevent.ui.favorite.FavoriteViewModel
 import com.example.dicodingevent.ui.finished.FinishedViewModel
@@ -13,11 +17,13 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    factory<EventsUseCase>{ EventsInteractor(get()) }
+    factory<RemoteUseCase>{ RemoteInteractor(get()) }
+    factory<RoomUseCase>{ RoomInteractor(get()) }
+    factory<DataStoreUseCase>{ DataStoreInteractor(get()) }
 }
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
-    viewModel { DetailViewModel(get()) }
+    viewModel { DetailViewModel(get(), get()) }
     viewModel { FavoriteViewModel(get()) }
     viewModel { FinishedViewModel(get()) }
     viewModel { SettingsViewModel(get()) }

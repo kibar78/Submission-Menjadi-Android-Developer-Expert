@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.core.ui.EventsAdapter
 import com.example.dicodingevent.databinding.FragmentUpcomingBinding
@@ -61,9 +61,14 @@ class UpcomingFragment : Fragment() {
         binding.rvUpcomingEvents.layoutManager = layoutManager
         binding.rvUpcomingEvents.setHasFixedSize(true)
 
-        upcomingViewModel.getupComingEvents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (upcomingViewModel.listUpcomingEvents.value !is ResultState.Success) {
+            upcomingViewModel.getupComingEvents()
+        }
+    }
     private fun setupUpcomingEvents(upcomingEvents: List<Events?>){
         val adapter = EventsAdapter()
         adapter.submitList(upcomingEvents)

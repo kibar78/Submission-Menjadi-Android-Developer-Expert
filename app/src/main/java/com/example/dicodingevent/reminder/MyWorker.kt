@@ -11,7 +11,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.core.domain.usecase.EventsUseCase
+import com.example.dicodingevent.core.domain.usecase.RemoteUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,9 +22,8 @@ import org.koin.java.KoinJavaComponent.inject
 class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams){
 
     private var resultStatus: Result? = null
-    //private val apiService = ApiConfig.getApiService()
 
-    private val eventsUseCase: EventsUseCase by inject(EventsUseCase::class.java)
+    private val eventsUseCase: RemoteUseCase by inject(RemoteUseCase::class.java)
 
     override fun doWork(): Result {
         return try {

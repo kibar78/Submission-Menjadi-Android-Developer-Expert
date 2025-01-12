@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.core.ui.EventsAdapter
 import com.example.dicodingevent.databinding.FragmentFinishedBinding
@@ -41,9 +41,7 @@ class FinishedFragment : Fragment() {
         lifecycleScope.launch {
             finishedViewModel.listFinishedEvents.collect { state ->
                 when (state) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
+                    is ResultState.Loading -> showLoading(true)
                     is ResultState.Success -> {
                         setupFinishedEvents(state.data)
                         showLoading(false)
@@ -59,12 +57,13 @@ class FinishedFragment : Fragment() {
         binding.rvFinishedEvents.layoutManager = layoutManager
         binding.rvFinishedEvents.setHasFixedSize(true)
 
-        finishedViewModel.getFinishedEvents()
     }
 
     override fun onResume() {
         super.onResume()
-        finishedViewModel.getFinishedEvents()
+        if (finishedViewModel.listFinishedEvents.value !is ResultState.Success){
+            finishedViewModel.getFinishedEvents()
+        }
     }
 
     private fun setupFinishedEvents(finishedEvents: List<Events?>){

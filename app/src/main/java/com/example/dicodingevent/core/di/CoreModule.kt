@@ -1,14 +1,19 @@
 package com.example.dicodingevent.core.di
 
 import androidx.room.Room
-import com.example.dicodingevent.core.data.source.Repository
-import com.example.dicodingevent.core.data.source.local.LocalDataSource
+import com.example.dicodingevent.core.data.source.repository.RemoteRepository
+import com.example.dicodingevent.core.data.source.local.DataStoreDataSource
+import com.example.dicodingevent.core.data.source.local.RoomDataSource
 import com.example.dicodingevent.core.data.source.local.datastore.SettingsPreferences
 import com.example.dicodingevent.core.data.source.local.datastore.dataStore
 import com.example.dicodingevent.core.data.source.local.room.EventDatabase
 import com.example.dicodingevent.core.data.source.remote.RemoteDataSource
 import com.example.dicodingevent.core.data.source.remote.network.ApiService
-import com.example.dicodingevent.core.domain.repository.IEventsRepository
+import com.example.dicodingevent.core.data.source.repository.DataStoreRepository
+import com.example.dicodingevent.core.data.source.repository.RoomRepository
+import com.example.dicodingevent.core.domain.repository.IDataStoreRepository
+import com.example.dicodingevent.core.domain.repository.IRemoteRepository
+import com.example.dicodingevent.core.domain.repository.IRoomRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -52,7 +57,11 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single { LocalDataSource(get(), get()) }
+    single { RoomDataSource(get()) }
+    single { DataStoreDataSource(get()) }
     single { RemoteDataSource(get()) }
-    single <IEventsRepository>{ Repository(get(),get()) }
+
+    single <IRemoteRepository>{ RemoteRepository(get()) }
+    single <IRoomRepository>{ RoomRepository(get()) }
+    single <IDataStoreRepository>{ DataStoreRepository(get()) }
 }

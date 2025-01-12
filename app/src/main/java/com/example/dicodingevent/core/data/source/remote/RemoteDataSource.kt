@@ -8,15 +8,6 @@ import kotlinx.coroutines.flow.flow
 
 class RemoteDataSource(private val apiService: ApiService){
 
-//    companion object{
-//        @Volatile
-//        private var instance: RemoteDataSource? = null
-//
-//        fun getInstance(service: ApiService): RemoteDataSource =
-//            instance ?: synchronized(this) {
-//                instance ?: RemoteDataSource(service)
-//            }
-//    }
     fun getListEvents(active: Int): Flow<EventsResponse> {
         return flow {
             emit(apiService.getListEvents(active))

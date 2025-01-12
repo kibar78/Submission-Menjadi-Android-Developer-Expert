@@ -10,7 +10,7 @@ import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.core.data.source.ResultState
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
 import com.example.dicodingevent.databinding.ActivityDetailBinding
 import kotlinx.coroutines.launch
@@ -64,9 +64,15 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
-        viewModel.getDetailEvent(itemId)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.detailEvent.value !is ResultState.Success) {
+            val itemId = intent.getIntExtra(EXTRA_ID, 0)
+            viewModel.getDetailEvent(itemId)
+        }
+    }
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         binding.fabAddFavorite.setImageResource(
             if (isFavorite) R.drawable.ic_favorite_24 else R.drawable.ic_favorite_border_24
@@ -114,9 +120,9 @@ class DetailActivity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
+
     companion object{
         const val EXTRA_ID = "event.id"
     }
-
 
 }
