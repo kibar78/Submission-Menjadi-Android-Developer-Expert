@@ -10,8 +10,8 @@ import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
-import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.databinding.ActivityDetailBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

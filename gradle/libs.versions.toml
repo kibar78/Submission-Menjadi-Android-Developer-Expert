@@ -1,9 +1,10 @@
 [versions]
-activityKtx = "1.9.3"
+activityKtx = "1.10.0"
 agp = "8.5.0"
+ksp = "2.0.10-1.0.24"
 fragmentKtx = "1.8.5"
 glide = "4.16.0"
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -11,18 +12,18 @@ espressoCore = "3.6.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesAndroid = "1.7.3"
 kotlinxCoroutinesCore = "1.6.4"
-loggingInterceptor = "4.11.0"
+loggingInterceptor = "4.12.0"
 material = "1.12.0"
 constraintlayout = "2.2.0"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleRuntimeKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
-navigationFragmentKtx = "2.8.3"
-navigationUiKtx = "2.8.3"
+navigationFragmentKtx = "2.8.5"
+navigationUiKtx = "2.8.5"
 retrofit = "2.9.0"
-activity = "1.9.3"
+activity = "1.10.0"
 legacySupportV4 = "1.0.0"
-datastorePreferences = "1.1.1"
+datastorePreferences = "1.1.2"
 roomKtx = "2.6.1"
 roomCompiler = "2.6.1"
 workRuntime = "2.10.0"
@@ -60,4 +61,6 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
 

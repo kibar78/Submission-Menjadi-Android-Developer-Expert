@@ -13,7 +13,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.example.dicodingevent.R
 import com.example.dicodingevent.databinding.ActivitySettingsBinding
-import com.example.dicodingevent.reminder.MyWorker
+import com.example.dicodingevent.ui.settings.notification.MyWorker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 

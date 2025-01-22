@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.domain.model.Favorite
-import com.example.dicodingevent.core.ui.FavoritesAdapter
+import com.example.dicodingevent.ui.adapter.FavoritesAdapter
 import com.example.dicodingevent.databinding.ActivityFavoriteBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -1,10 +1,13 @@
-package com.example.dicodingevent.reminder
+package com.example.dicodingevent.ui.settings.notification
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
@@ -40,6 +43,7 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
         val response = eventsUseCase.getDailyReminder(-1,1)
         if (response.isNotEmpty()){
             val event = response[0]
+            val eventId = event.link
             event.name.let {
                 val beginTime = event.beginTime
                 CoroutineScope(Dispatchers.IO).launch {
@@ -49,7 +53,7 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
                         .submit()
                         .get()
                     withContext(Dispatchers.Main){
-                        showNotification(it, beginTime, imageBitmap)
+                        showNotification(eventId, it, beginTime, imageBitmap)
                     }
                 }
             }
@@ -58,18 +62,33 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
         return resultStatus as Result
     }
 
+
     @SuppressLint("ObsoleteSdkInt")
-    private fun showNotification(title: String, beginTime: String?, image: Bitmap?){
+    private fun showNotification(linkEvent: String, title: String, beginTime: String?, image: Bitmap?){
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkEvent)).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_upcoming_24dp)
             .setContentTitle(title)
             .setContentText(beginTime)
             .setLargeIcon(image)
-            .setStyle(NotificationCompat.BigPictureStyle()
-                .bigPicture(image))
+            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(image))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,

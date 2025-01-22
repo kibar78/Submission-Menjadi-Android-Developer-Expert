@@ -37,17 +37,7 @@ class SettingsPreferences(private val dataStore: DataStore<Preferences>){
     }
 
     companion object {
-//        @Volatile
-//        //private var INSTANCE: SettingsPreferences? = null
         private val THEME_KEY = booleanPreferencesKey("theme_setting")
         private val NOTIFICATION_KEY = booleanPreferencesKey("notif_setting")
-
-//        fun getInstance(dataStore: DataStore<Preferences>): SettingsPreferences {
-//            return INSTANCE ?: synchronized(this) {
-//                val instance = SettingsPreferences(dataStore)
-//                INSTANCE = instance
-//                instance
-//            }
-//        }
     }
 }

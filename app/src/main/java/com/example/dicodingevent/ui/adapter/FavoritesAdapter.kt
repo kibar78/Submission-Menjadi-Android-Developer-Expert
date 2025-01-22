@@ -1,4 +1,4 @@
-package com.example.dicodingevent.core.ui
+package com.example.dicodingevent.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater

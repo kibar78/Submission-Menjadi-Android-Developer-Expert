@@ -1,4 +1,4 @@
-package com.example.dicodingevent.core.ui
+package com.example.dicodingevent.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -41,7 +41,9 @@ class CarouselAdapter: ListAdapter<Events, CarouselAdapter.ViewHolder>(DIFF_CALL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCarouselBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(
+            binding
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

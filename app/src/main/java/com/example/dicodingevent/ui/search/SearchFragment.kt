@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.core.ui.EventsAdapter
+import com.example.dicodingevent.ui.adapter.EventsAdapter
 import com.example.dicodingevent.databinding.FragmentSearchBinding
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.ACTIVE
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.QUERY

@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.core.ui.EventsAdapter
+import com.example.dicodingevent.ui.adapter.EventsAdapter
 import com.example.dicodingevent.databinding.FragmentUpcomingBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

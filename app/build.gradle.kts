@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -57,11 +55,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-
     //Glide
     implementation(libs.glide)
 
@@ -69,21 +62,11 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
 
-    //Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    //Datastore
-    implementation(libs.androidx.datastore.preferences)
-
-    //room
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.room.compiler)
-
     //WorkManager
     implementation(libs.androidx.work.runtime)
 
     //Koin
     implementation(libs.koin.android)
+
+    implementation(project(":core"))
 }

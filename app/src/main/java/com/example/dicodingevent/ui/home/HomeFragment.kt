@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.core.ui.CarouselAdapter
-import com.example.dicodingevent.core.ui.EventsAdapter
+import com.example.dicodingevent.ui.adapter.CarouselAdapter
+import com.example.dicodingevent.ui.adapter.EventsAdapter
 import com.example.dicodingevent.databinding.FragmentHomeBinding
 import com.google.android.material.carousel.CarouselSnapHelper
 import kotlinx.coroutines.launch
