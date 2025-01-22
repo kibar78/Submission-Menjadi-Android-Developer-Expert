@@ -8,10 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.core.domain.model.Events
-import com.example.dicodingevent.ui.adapter.EventsAdapter
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.databinding.FragmentSearchBinding
+import com.example.dicodingevent.ui.adapter.EventsAdapter
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.ACTIVE
 import com.example.dicodingevent.ui.search.SearchViewModel.Companion.QUERY
 import kotlinx.coroutines.launch
@@ -49,32 +49,36 @@ class SearchFragment : Fragment() {
         binding.rvSearchEvents.setHasFixedSize(true)
 
         lifecycleScope.launch {
-        searchViewModel.listSearchEvents.collect{state->
-            when(state){
-                is ResultState.Loading-> showLoading(true)
-                is ResultState.Success->{
-                    showLoading(false)
-                    setupSearchEvents(state.data)
-                }
-                is ResultState.Error->{
-                    showLoading(false)
-                    showToast(state.error)
+            searchViewModel.listSearchEvents.collect{state->
+                when(state){
+                    is ResultState.Loading-> showLoading(true)
+                    is ResultState.Success->{
+                        showLoading(false)
+                        setupSearchEvents(state.data)
+                    }
+                    is ResultState.Error->{
+                        showLoading(false)
+                        showToast(state.error)
+                    }
                 }
             }
         }
-        }
         with(binding){
             searchView.setupWithSearchBar(searchBar)
-            searchView
-                .editText
-                .setOnEditorActionListener { _, _, _ ->
-                    searchBar.setText(searchView.text)
-                    searchView.hide()
-                    searchViewModel.searchEvents(ACTIVE,searchView.text.toString())
-                    false
-                }
+            searchView.editText.setOnEditorActionListener { _, _, _ ->
+                searchBar.setText(searchView.text)
+                searchView.hide()
+                searchViewModel.searchEvents(ACTIVE, searchView.text.toString())
+                false
+            }
         }
-        searchViewModel.searchEvents(ACTIVE, QUERY)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (searchViewModel.listSearchEvents.value !is ResultState.Success) {
+            searchViewModel.searchEvents(ACTIVE, QUERY)
+        }
     }
 
     private fun showLoading(isLoading: Boolean){
