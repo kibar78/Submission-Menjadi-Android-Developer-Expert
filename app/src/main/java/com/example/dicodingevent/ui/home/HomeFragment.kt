@@ -24,6 +24,9 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModel()
 
+    private lateinit var upcomingAdapter: CarouselAdapter
+    private lateinit var finishedAdapter: EventsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,6 +38,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        upcomingAdapter = CarouselAdapter()
+        binding.rvUpcomingEvents.adapter = upcomingAdapter
+        val snapHelper = CarouselSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvUpcomingEvents)
+
+        finishedAdapter = EventsAdapter()
+        binding.rvFinishedEvents.adapter = finishedAdapter
+        val layoutManager2 = LinearLayoutManager(requireActivity())
+        binding.rvFinishedEvents.layoutManager = layoutManager2
+        binding.rvFinishedEvents.setHasFixedSize(true)
 
         lifecycleScope.launch {
             homeViewModel.listUpcomingEvents.collect { state ->
@@ -50,6 +64,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+
         }
 
         lifecycleScope.launch {
@@ -67,36 +82,15 @@ class HomeFragment : Fragment() {
             }
         }
         }
-
-        val snapHelper = CarouselSnapHelper()
-        snapHelper.attachToRecyclerView(binding.rvUpcomingEvents)
-
-        val layoutManager2 = LinearLayoutManager(requireActivity())
-        binding.rvFinishedEvents.layoutManager = layoutManager2
-        binding.rvFinishedEvents.setHasFixedSize(true)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (homeViewModel.listUpcomingEvents.value !is ResultState.Success) {
-            homeViewModel.getupComingEvents()
-        }
-        if (homeViewModel.listFinishedEvents.value !is ResultState.Success) {
-            homeViewModel.getFinishedEvents()
-        }
+        homeViewModel.getupComingEvents()
+        homeViewModel.getFinishedEvents()
     }
 
     private fun setupUpcomingEvents(upcomingEvents: List<Events?>){
-        val adapter = CarouselAdapter()
-        adapter.submitList(upcomingEvents)
-        binding.rvUpcomingEvents.adapter = adapter
+        upcomingAdapter.submitList(upcomingEvents)
     }
-
     private fun setupFinishedEvents(finishedEvents: List<Events?>){
-        val adapter = EventsAdapter()
-        adapter.submitList(finishedEvents)
-        binding.rvFinishedEvents.adapter = adapter
+        finishedAdapter.submitList(finishedEvents)
     }
 
     private fun showLoading(isLoading: Boolean){

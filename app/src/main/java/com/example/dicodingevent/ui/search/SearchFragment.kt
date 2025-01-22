@@ -27,6 +27,8 @@ class SearchFragment : Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModel()
 
+    private lateinit var adapter: EventsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,12 +41,17 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = EventsAdapter()
+        binding.rvSearchEvents.adapter = adapter
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvSearchEvents.layoutManager = layoutManager
+        binding.rvSearchEvents.setHasFixedSize(true)
+
         lifecycleScope.launch {
         searchViewModel.listSearchEvents.collect{state->
             when(state){
-                is ResultState.Loading->{
-                    showLoading(true)
-                }
+                is ResultState.Loading-> showLoading(true)
                 is ResultState.Success->{
                     showLoading(false)
                     setupSearchEvents(state.data)
@@ -67,17 +74,7 @@ class SearchFragment : Fragment() {
                     false
                 }
         }
-        val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvSearchEvents.layoutManager = layoutManager
-        binding.rvSearchEvents.setHasFixedSize(true)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (searchViewModel.listSearchEvents.value !is ResultState.Success) {
-            searchViewModel.searchEvents(ACTIVE, QUERY)
-        }
+        searchViewModel.searchEvents(ACTIVE, QUERY)
     }
 
     private fun showLoading(isLoading: Boolean){
@@ -87,9 +84,7 @@ class SearchFragment : Fragment() {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
     private fun setupSearchEvents(searchEvents: List<Events?>){
-        val adapter = EventsAdapter()
         adapter.submitList(searchEvents)
-        binding.rvSearchEvents.adapter = adapter
     }
     override fun onDestroyView() {
         super.onDestroyView()

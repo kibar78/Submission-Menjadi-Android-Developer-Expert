@@ -25,6 +25,8 @@ class UpcomingFragment : Fragment() {
 
     private val upcomingViewModel: UpcomingViewModel by viewModel()
 
+    private lateinit var adapter: EventsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,18 +39,22 @@ class UpcomingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = EventsAdapter()
+        binding.rvUpcomingEvents.adapter = adapter
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvUpcomingEvents.layoutManager = layoutManager
+        binding.rvUpcomingEvents.setHasFixedSize(true)
+
         lifecycleScope.launch {
             upcomingViewModel.listUpcomingEvents.collect{ state ->
                 when (state) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
-
+                    is ResultState.Loading -> showLoading(true)
                     is ResultState.Success -> {
                         showLoading(false)
                         setupUpcomingEvents(state.data)
+                        showInfoMessage(state.data.isEmpty())
                     }
-
                     is ResultState.Error -> {
                         showLoading(false)
                         showToast(state.error)
@@ -56,29 +62,20 @@ class UpcomingFragment : Fragment() {
                 }
             }
         }
-
-        val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvUpcomingEvents.layoutManager = layoutManager
-        binding.rvUpcomingEvents.setHasFixedSize(true)
-
+        upcomingViewModel.getupComingEvents()
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (upcomingViewModel.listUpcomingEvents.value !is ResultState.Success) {
-            upcomingViewModel.getupComingEvents()
-        }
-    }
     private fun setupUpcomingEvents(upcomingEvents: List<Events?>){
-        val adapter = EventsAdapter()
         adapter.submitList(upcomingEvents)
-        binding.rvUpcomingEvents.adapter = adapter
     }
     private fun showLoading(isLoading: Boolean){
         binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
     private fun showToast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+    private fun showInfoMessage(isEmpty: Boolean) {
+        binding.tvInfo.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
     override fun onDestroyView() {
         super.onDestroyView()

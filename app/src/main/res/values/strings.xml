@@ -14,4 +14,6 @@
     <string name="searchbar_hint">Devcoach</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_setting">Settings</string>
+    <string name="info_data">Anda Tidak Memiliki Events Favorite</string>
+    <string name="events_belum_tersedia">Events Belum Tersedia</string>
 </resources>

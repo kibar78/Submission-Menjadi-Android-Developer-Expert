@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.domain.model.Favorite
-import com.example.dicodingevent.ui.adapter.FavoritesAdapter
+import com.example.dicodingevent.core.utils.ResultState
 import com.example.dicodingevent.databinding.ActivityFavoriteBinding
+import com.example.dicodingevent.ui.adapter.FavoritesAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,6 +18,8 @@ class FavoriteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoriteBinding
 
     private val favoriteViewModel: FavoriteViewModel by viewModel()
+
+    private lateinit var adapter: FavoritesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,33 +30,38 @@ class FavoriteActivity : AppCompatActivity() {
         actionBar?.title = "Favorite"
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
+        adapter = FavoritesAdapter()
+        binding.rvFavoriteEvents.adapter = adapter
         binding.rvFavoriteEvents.layoutManager = LinearLayoutManager(this)
         binding.rvFavoriteEvents.setHasFixedSize(true)
 
-        favoriteViewModel.getAllFavorite()
-
         lifecycleScope.launch {
-            favoriteViewModel.listFavorite.collect { list ->
-                showLoading(true)
-                try {
-                    showLoading(false)
-                    setUpListFavorites(list)
-                } catch (e: Exception) {
-                    showLoading(false)
-                    showToast(e.message.toString())
+            favoriteViewModel.listFavorite.collect { state ->
+                when (state) {
+                    is ResultState.Loading -> showLoading(true)
+                    is ResultState.Success -> {
+                        setUpListFavorites(state.data)
+                        showLoading(false)
+                        showNoFavoriteMessage(state.data.isEmpty())
+                    }
+                    is ResultState.Error ->{
+                        showLoading(false)
+                        showToast(state.error)
+                    }
                 }
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
-        favoriteViewModel.getAllFavorite()
+        if (favoriteViewModel.listFavorite.value !is ResultState.Success){
+            favoriteViewModel.getAllFavorite()
+        }
     }
 
     private fun setUpListFavorites(favorite: List<Favorite>){
-        val adapter = FavoritesAdapter()
         adapter.submitList(favorite)
-        binding.rvFavoriteEvents.adapter = adapter
     }
     private fun showLoading(isLoading: Boolean){
         binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -62,9 +70,11 @@ class FavoriteActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    private fun showNoFavoriteMessage(isEmpty: Boolean) {
+        binding.tvInfo.visibility = if (isEmpty) View.VISIBLE else View.GONE
+    }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
-
 }

@@ -25,6 +25,8 @@ class FinishedFragment : Fragment() {
 
     private val finishedViewModel: FinishedViewModel by viewModel()
 
+    private lateinit var adapter: EventsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +39,12 @@ class FinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = EventsAdapter()
+        binding.rvFinishedEvents.adapter = adapter
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.rvFinishedEvents.layoutManager = layoutManager
+        binding.rvFinishedEvents.setHasFixedSize(true)
 
         lifecycleScope.launch {
             finishedViewModel.listFinishedEvents.collect { state ->
@@ -53,29 +61,11 @@ class FinishedFragment : Fragment() {
                 }
             }
         }
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvFinishedEvents.layoutManager = layoutManager
-        binding.rvFinishedEvents.setHasFixedSize(true)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (finishedViewModel.listFinishedEvents.value !is ResultState.Success){
-            finishedViewModel.getFinishedEvents()
-        }
+        finishedViewModel.getFinishedEvents()
     }
 
     private fun setupFinishedEvents(finishedEvents: List<Events?>){
-        val adapter = binding.rvFinishedEvents.adapter as? EventsAdapter
-        if (adapter != null) {
-            adapter.submitList(finishedEvents)
-        } else {
-            val newAdapter = EventsAdapter()
-            newAdapter.submitList(finishedEvents)
-            binding.rvFinishedEvents.adapter = newAdapter
-        }
-
+        adapter.submitList(finishedEvents)
     }
     private fun showLoading(isLoading: Boolean){
         binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
