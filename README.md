@@ -36,7 +36,7 @@ Dicoding Event adalah aplikasi Android untuk menampilkan acara yang sedang atau 
 </div>
 
 ## Closing
-Feel free to clone this repository as an example to help you code! <br>https://github.com/kibar78/Submission-Belajar-Fundamental-Aplikasi-Android.git
+Feel free to clone this repository as an example to help you code! <br>https://github.com/kibar78/Submission-Menjadi-Android-Developer-Expert/tree/master
 
 #### Author
 Rizki Akbar (kibar78)
