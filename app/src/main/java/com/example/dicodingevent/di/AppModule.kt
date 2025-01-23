@@ -7,7 +7,6 @@ import com.example.dicodingevent.core.domain.usecase.RemoteUseCase
 import com.example.dicodingevent.core.domain.usecase.RoomInteractor
 import com.example.dicodingevent.core.domain.usecase.RoomUseCase
 import com.example.dicodingevent.ui.detail.DetailViewModel
-import com.example.dicodingevent.ui.favorite.FavoriteViewModel
 import com.example.dicodingevent.ui.finished.FinishedViewModel
 import com.example.dicodingevent.ui.home.HomeViewModel
 import com.example.dicodingevent.ui.search.SearchViewModel
@@ -24,7 +23,6 @@ val useCaseModule = module {
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { DetailViewModel(get(), get()) }
-    viewModel { FavoriteViewModel(get()) }
     viewModel { FinishedViewModel(get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { SearchViewModel(get()) }

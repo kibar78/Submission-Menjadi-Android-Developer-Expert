@@ -61,7 +61,13 @@ class FinishedFragment : Fragment() {
                 }
             }
         }
-        finishedViewModel.getFinishedEvents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (finishedViewModel.listFinishedEvents.value !is ResultState.Success) {
+            finishedViewModel.getFinishedEvents()
+        }
     }
 
     private fun setupFinishedEvents(finishedEvents: List<Events?>){

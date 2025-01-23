@@ -37,6 +37,7 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    dynamicFeatures += setOf(":favorite")
 }
 
 dependencies {
@@ -68,5 +69,6 @@ dependencies {
     //Koin
     implementation(libs.koin.android)
 
+    //Module
     implementation(project(":core"))
 }

@@ -1,6 +1,7 @@
 package com.example.dicodingevent
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,7 +15,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dicodingevent.databinding.ActivityMainBinding
-import com.example.dicodingevent.ui.favorite.FavoriteActivity
 import com.example.dicodingevent.ui.settings.SettingsActivity
 import com.example.dicodingevent.ui.settings.SettingsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.action_favorite -> {
-                val goFavorite = Intent(this, FavoriteActivity::class.java)
-                startActivity(goFavorite)
+                val intent = Intent(this, Class.forName("com.example.dicodingevent.favorite.FavoriteActivity"))
+                startActivity(intent)
                 true
             }
             R.id.action_settings -> {

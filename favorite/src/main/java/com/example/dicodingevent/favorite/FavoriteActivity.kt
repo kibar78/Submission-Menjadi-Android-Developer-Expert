@@ -1,4 +1,4 @@
-package com.example.dicodingevent.ui.favorite
+package com.example.dicodingevent.favorite
 
 import android.os.Bundle
 import android.view.View
@@ -8,10 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.core.domain.model.Favorite
 import com.example.dicodingevent.core.utils.ResultState
-import com.example.dicodingevent.databinding.ActivityFavoriteBinding
-import com.example.dicodingevent.ui.adapter.FavoritesAdapter
+import com.example.dicodingevent.favorite.databinding.ActivityFavoriteBinding
+import com.example.dicodingevent.adapter.FavoritesAdapter
+import com.example.dicodingevent.di.favoriteModule
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -26,6 +28,7 @@ class FavoriteActivity : AppCompatActivity() {
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loadKoinModules(favoriteModule)
         val actionBar = supportActionBar
         actionBar?.title = "Favorite"
         actionBar?.setDisplayHomeAsUpEnabled(true)

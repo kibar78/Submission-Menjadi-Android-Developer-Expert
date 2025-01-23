@@ -62,7 +62,13 @@ class UpcomingFragment : Fragment() {
                 }
             }
         }
-        upcomingViewModel.getupComingEvents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (upcomingViewModel.listUpcomingEvents.value !is ResultState.Success){
+            upcomingViewModel.getupComingEvents()
+        }
     }
 
     private fun setupUpcomingEvents(upcomingEvents: List<Events?>){

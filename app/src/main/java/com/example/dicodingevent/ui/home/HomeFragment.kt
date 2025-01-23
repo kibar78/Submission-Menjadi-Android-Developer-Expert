@@ -46,9 +46,8 @@ class HomeFragment : Fragment() {
 
         finishedAdapter = EventsAdapter()
         binding.rvFinishedEvents.adapter = finishedAdapter
-        val layoutManager2 = LinearLayoutManager(requireActivity())
-        binding.rvFinishedEvents.layoutManager = layoutManager2
-        binding.rvFinishedEvents.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvFinishedEvents.layoutManager = layoutManager
 
         lifecycleScope.launch {
             homeViewModel.listUpcomingEvents.collect { state ->
@@ -82,8 +81,16 @@ class HomeFragment : Fragment() {
             }
         }
         }
-        homeViewModel.getupComingEvents()
-        homeViewModel.getFinishedEvents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (homeViewModel.listUpcomingEvents.value !is ResultState.Success){
+            homeViewModel.getupComingEvents()
+        }
+        if (homeViewModel.listFinishedEvents.value !is ResultState.Success){
+            homeViewModel.getFinishedEvents()
+        }
     }
 
     private fun setupUpcomingEvents(upcomingEvents: List<Events?>){
