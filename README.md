@@ -1,6 +1,4 @@
-# Submission Dicoding Belajar Fundamental Aplikasi Android
-
-Submission Awal Untuk Kelas Dicoding Belajar Fundamental Aplikasi Android (BFAA). 
+# Submission Dicoding Menjadi Android Developer Expert
 
 ## Dicoding Event App
 
@@ -12,10 +10,20 @@ Dicoding Event adalah aplikasi Android untuk menampilkan acara yang sedang atau 
     - **Upcoming**: Event yang aktif/akan datang
     - **Finished**: Event yang sudah selesai.
     - **Search**: Cari event berdasarkan kata. kunci.
+- **Favorite**: Simpan event favorit untuk akses cepat di masa mendatang. Event yang telah ditandai sebagai favorit akan muncul dalam daftar khusus.
+- **Settings**
+  -**Notification**: Atur pemberitahuan untuk event tertentu agar tidak melewatkan acara penting.
+  -**Dark Mode**: Ubah tema aplikasi ke mode gelap untuk pengalaman yang lebih nyaman di lingkungan minim cahaya.
 - **Detail Event Lengkap**: Tampilkan informasi acara (gambar, nama, ringkasan, waktu, kuota tersisa, deskripsi, link acara).
 - **Loading Indicator**: Loading saat pengambilan data dari API.
 
-
+## Tech Stack
+- **Kotlin**: Bahasa utama.
+- **Coroutines & Flow**: Async & reactive.
+- **Koin**: DI sederhana.
+- **Clean Architecture**: Layer terpisah.
+- **Modularization**: Fitur modular.
+- **Dynamic Feature Module**: Fitur on-demand.
 
 ## Screenshots
 
@@ -28,7 +36,7 @@ Dicoding Event adalah aplikasi Android untuk menampilkan acara yang sedang atau 
 </div>
 
 ## Closing
-Feel free to clone this repository as an example to help you code! <br>https://github.com/kibar78/Submission-Belajar-Fundamental-Aplikasi-Android.git
+Feel free to clone this repository as an example to help you code! <br>https://github.com/kibar78/Submission-Menjadi-Android-Developer-Expert/tree/master
 
 #### Author
 Rizki Akbar (kibar78)
