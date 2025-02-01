@@ -32,7 +32,7 @@ Dicoding Event adalah aplikasi Android untuk menampilkan acara yang sedang atau 
     <img src="./ss/upcoming.png" alt="Screenshot 2" width="150"/>
     <img src="./ss/finished.png" alt="Screenshot 3" width="150"/>
     <img src="./ss/search.png" alt="Screenshot 4" width="150"/>
-    <img src="./ss/detail.png" alt="Screenshot 5" width="150"/>
+    <img src="ss/detail1.png" alt="Screenshot 5" width="150"/>
 </div>
 
 ## Closing
