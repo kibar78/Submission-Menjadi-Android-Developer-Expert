@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     id("kotlin-parcelize")
+    id("org.jetbrains.kotlinx.kover") version "0.7.4"
 }
 
 android {
@@ -62,6 +63,10 @@ dependencies {
     //room
     implementation(libs.androidx.room.ktx)
     ksp(libs.room.compiler)
+
+    //SQlCipher
+    implementation(libs.android.database.sqlcipher)
+    implementation(libs.androidx.sqlite.ktx)
 
     api(libs.koin.android)
 }

@@ -1,6 +1,9 @@
+import groovy.lang.ExpandoMetaClassCreationHandle.enable
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlinx.kover")
 }
 
 android {
@@ -38,6 +41,10 @@ android {
         buildConfig = true
     }
     dynamicFeatures += setOf(":favorite")
+
+    kover{
+        enable()
+    }
 }
 
 dependencies {
@@ -71,4 +78,8 @@ dependencies {
 
     //Module
     implementation(project(":core"))
+
+//    //SQlCipher
+//    implementation(libs.android.database.sqlcipher)
+//    implementation(libs.androidx.sqlite.ktx)
 }
