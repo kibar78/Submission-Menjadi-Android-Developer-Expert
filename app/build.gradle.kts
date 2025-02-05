@@ -3,7 +3,7 @@ import groovy.lang.ExpandoMetaClassCreationHandle.enable
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("org.jetbrains.kotlinx.kover")
+    alias(libs.plugins.kotlinx.kover)
 }
 
 android {
@@ -22,11 +22,15 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -78,8 +82,5 @@ dependencies {
 
     //Module
     implementation(project(":core"))
-
-//    //SQlCipher
-//    implementation(libs.android.database.sqlcipher)
-//    implementation(libs.androidx.sqlite.ktx)
+    
 }
